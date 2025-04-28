@@ -1,0 +1,42 @@
+<%- include('partials/header') %>
+
+<div class="dashboard-container">
+    <%- include('partials/sidebar') %>
+    <div class="main-content">
+        <h2>Welcome, <%= user.displayName %>!</h2>
+        <h3>Your Habits</h3>
+        <% if (habits.length > 0) { %>
+            <ul class="habit-list">
+                <% habits.forEach((habit, index) => { %>
+                    <li class="habit-item <%= index % 2 === 0 ? 'even' : 'odd' %>">
+                        <div class="habit-info">
+                            <h4><%= habit.name %> 
+                                <span class="status <%= habit.isCompleted ? 'completed' : 'pending' %>">
+                                    <%= habit.isCompleted ? 'Completed' : 'Pending' %>
+                                </span>
+                            </h4>
+                            <p><%= habit.description %></p>
+                            <span class="frequency"><%= habit.frequency %></span>
+                        </div>
+                        <div class="habit-actions">
+                            <% if (!habit.isCompleted) { %>
+                                <form action="/habits/complete/<%= habit._id %>" method="POST">
+                                    <button type="submit" class="complete-btn">Complete</button>
+                                </form>
+                            <% } %>
+                            <form action="/habits/delete/<%= habit._id %>" method="POST">
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        </div>
+                        </li>
+                <% }) %>
+            </ul>
+            <div class="add-habit">
+                <a href="/habits/add" class="add-btn">Add New Habit</a>
+            </div>
+        <% } else { %>
+            <p>You haven't added any habits yet. <a href="/habits/add">Add one now!</a></p>
+        <% } %>
+    </div>
+</div>
+<%- include('partials/footer') %>

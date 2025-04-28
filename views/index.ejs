@@ -1,0 +1,83 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="content">
+        <section class="hero">
+            <h1>Welcome to Your Daily Habit Tracker</h1>
+            <p class="lead">Build, maintain, and track positive habits for a better you.</p>
+            <% if (!user) { %>
+                <div class="google-btn">
+                    <div class="google-icon-wrapper">
+                        <img class="google-icon" src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"/>
+                    </div>
+                    <p class="btn-text"><a href="/auth/google">Sign in with Google</a></p>
+                </div>
+            <% } %>
+        </section>
+
+        <section class="features">
+            <h2>Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Easy Habit Setup</h3>
+                    <p>Create and customize your daily habits in seconds.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-check-square"></i>
+                    <h3>Daily Check-ins</h3>
+                    <p>Mark your completed habits and build consistency.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Progress Tracking</h3>
+                    <p>Visualize your habit streaks and overall progress.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>User-Friendly Interface</h3>
+                    <p>Intuitive design for seamless habit management.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="using-app">
+            <section class="benefits">
+                <h2>Why Track Your Habits?</h2>
+                <ul>
+                    <li>Increase self-awareness and personal growth</li>
+                    <li>Stay motivated with visual progress</li>
+                    <li>Build consistency in your daily routines</li>
+                    <li>Achieve your long-term goals step by step</li>
+                    <li>Improve overall well-being and productivity</li>
+                </ul>
+            </section>
+
+            <section class="how-it-works">
+                <h2>How It Works</h2>
+                <ol>
+                    <li>Sign up with your Google account</li>
+                    <li>Create your personalized habit list</li>
+                    <li>Check in daily to mark completed habits</li>
+                    <li>Track your progress and build streaks</li>
+                    <li>Adjust and add new habits as you grow</li>
+                </ol>
+            </section>
+        </div>
+
+        <section class="cta">
+            <h2>Start Your Journey to Better Habits Today!</h2>
+            <p>Join thousands of users who have transformed their lives through consistent habit tracking.</p>
+            <% if (!user) { %>
+                <div class="google-btn">
+                    <div class="google-icon-wrapper">
+                        <img class="google-icon" src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"/>
+                    </div>
+                    <p class="btn-text"><a href="/auth/google">Sign in with Google</a></p>
+                </div>
+            <% } %>
+        </section>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
