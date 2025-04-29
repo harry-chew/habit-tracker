@@ -7,7 +7,6 @@ const habitSchema = new mongoose.Schema({
   frequency: { type: String, enum: ['daily', 'weekly', 'monthly'], default: 'daily' },
   createdAt: { type: Date, default: Date.now },
   completions: [{ type: Date }],
-  streak: { type: Number, default: 0 },
   lastCompletedDate: { type: Date }
 });
 

@@ -11,4 +11,9 @@ const streakSchema = new mongoose.Schema({
   }]
 });
 
+// Add this method to the Streak schema
+streakSchema.methods.hasSevenDayStreak = function() {
+  return this.currentStreak >= 7;
+};
+
 module.exports = mongoose.model('Streak', streakSchema);

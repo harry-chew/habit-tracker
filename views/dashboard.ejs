@@ -3,6 +3,7 @@
 <div class="dashboard-container">
     <%- include('partials/sidebar') %>
     <div class="main-content">
+        <%- include('partials/streak-banner') %>
         <h2>Welcome, <%= user.displayName %>!</h2>
         <h3>Your Habits</h3>
         <% if (habits.length > 0) { %>
@@ -11,23 +12,23 @@
                     <li class="habit-item <%= index % 2 === 0 ? 'even' : 'odd' %>">
                         <div class="habit-info">
                             <h4><%= habit.name %> 
-                                <span class="status <%= habit.isCompleted ? 'completed' : 'pending' %>">
-                                    <%= habit.isCompleted ? 'Completed' : 'Pending' %>
-                                </span>
-                            </h4>
-                            <p><%= habit.description %></p>
-                            <span class="frequency"><%= habit.frequency %></span>
-                        </div>
-                        <div class="habit-actions">
-                            <% if (!habit.isCompleted) { %>
-                                <form action="/habits/complete/<%= habit._id %>" method="POST">
-                                    <button type="submit" class="complete-btn">Complete</button>
+                                    <span class="status <%= habit.isCompletedForCurrentPeriod() ? 'completed' : 'pending' %>">
+                                        <%= habit.isCompletedForCurrentPeriod() ? 'Completed' : 'Pending' %>
+                                    </span>
+                                </h4>
+                                <p><%= habit.description %></p>
+                                <span class="frequency"><%= habit.frequency %></span>
+                            </div>
+                            <div class="habit-actions">
+                                <% if (!habit.isCompletedForCurrentPeriod()) { %>
+                                    <form action="/habits/complete/<%= habit._id %>" method="POST">
+                                        <button type="submit" class="complete-btn">Complete</button>
+                                    </form>
+                                <% } %>
+                                <form action="/habits/delete/<%= habit._id %>" method="POST">
+                                    <button type="submit" class="delete-btn">Delete</button>
                                 </form>
-                            <% } %>
-                            <form action="/habits/delete/<%= habit._id %>" method="POST">
-                                <button type="submit" class="delete-btn">Delete</button>
-                            </form>
-                        </div>
+                            </div>
                         </li>
                 <% }) %>
             </ul>

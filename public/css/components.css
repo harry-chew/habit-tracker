@@ -8,6 +8,25 @@
     margin-top: 20px;
 }
 
+.streak-banner {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.streak-banner h3 {
+    margin-top: 0;
+    font-size: 1.4em;
+}
+
+.streak-banner p {
+    margin: 10px 0 0;
+}
+
 .google-btn {
     width: 191px;
     height: 46px;
