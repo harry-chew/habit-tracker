@@ -42,8 +42,6 @@ router.post('/complete/:id', ensureAuthenticated, async (req, res) => {
     }
     
     const now = new Date();
-    
-    habit.completions.push(now);
     habit.lastCompletedDate = now;
     await habit.save();
 
@@ -58,13 +56,9 @@ router.post('/complete/:id', ensureAuthenticated, async (req, res) => {
 
     if (allCompleted) {
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      if (streak.lastUpdated.toDateString() !== today.toDateString()) {
         streak.currentStreak += 1;
         streak.longestStreak = Math.max(streak.longestStreak, streak.currentStreak);
         streak.history.push({ date: today, streak: streak.currentStreak });
-      }
-    } else {
-      streak.currentStreak = 0;
     }
     
     streak.lastUpdated = now;
