@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Habit Tracker</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
@@ -12,12 +12,12 @@
         <h1>Daily Habit Tracker</h1>
     </header>
     <nav class="nav">
-        <a href="/">Home</a>
+        <a href="/"><i class="fas fa-home"></i> Home</a>
         <% if (user) { %>
-            <a href="/dashboard">Dashboard</a>
-            <a href="/auth/logout">Logout</a>
+            <a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         <% } else { %>
-            <a href="/auth/google">Login</a>
+            <a href="/auth/google"><i class="fas fa-sign-in-alt"></i> Login</a>
         <% } %>
     </nav>
     <div class="container">

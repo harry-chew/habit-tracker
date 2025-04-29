@@ -5,15 +5,12 @@
         <section class="hero">
             <h1>Welcome to Your Daily Habit Tracker</h1>
             <p class="lead">Build, maintain, and track positive habits for a better you.</p>
-            <% if (!user) { %>
-                <div class="google-btn">
-                    <div class="google-icon-wrapper">
-                        <img class="google-icon" src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"/>
-                    </div>
-                    <p class="btn-text"><a href="/auth/google">Sign in with Google</a></p>
-                </div>
-            <% } %>
         </section>
+        
+        <% if (!user) { %>
+            <p>Sign up now and take the first step towards a better you.</p>
+            <%- include('partials/google-login-button') %>
+        <% } %>
 
         <section class="features">
             <h2>Key Features</h2>
@@ -68,15 +65,11 @@
         <section class="cta">
             <h2>Start Your Journey to Better Habits Today!</h2>
             <p>Join thousands of users who have transformed their lives through consistent habit tracking.</p>
-            <% if (!user) { %>
-                <div class="google-btn">
-                    <div class="google-icon-wrapper">
-                        <img class="google-icon" src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg"/>
-                    </div>
-                    <p class="btn-text"><a href="/auth/google">Sign in with Google</a></p>
-                </div>
-            <% } %>
         </section>
+        <% if (!user) { %>
+            <p>Sign up now and take the first step towards a better you.</p>
+            <%- include('partials/google-login-button') %>
+        <% } %>
     </div>
 </div>
 

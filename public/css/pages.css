@@ -1,0 +1,160 @@
+/* Styles specific to the dashboard */
+.dashboard-container {
+    display: flex;
+    min-height: calc(100vh - 100px);
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+/* Styles specific to the add habit */
+.add-habit-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.add-habit-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.add-habit-form input[type="text"],
+.add-habit-form textarea,
+.add-habit-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.add-habit-form textarea {
+    resize: vertical;
+}
+
+.submit-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+}
+
+
+
+.habit-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.habit-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.habit-info {
+    flex-grow: 1;
+}
+
+.habit-actions {
+    display: flex;
+    gap: 10px; /* This creates space between the buttons */
+}
+
+.complete-btn, .delete-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.complete-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.complete-btn:hover {
+    background-color: #45a049;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.status {
+    font-size: 0.8em;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+
+.status.completed {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.status.pending {
+    background-color: #FFA500;
+    color: white;
+}
+
+
+
+/* Styles specific to the habit history */
+/* habit history */
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+}
+.stat-box {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex: 1;
+    min-width: 200px;
+}
+.stat-box h3 {
+    margin-top: 0;
+    color: #333;
+}
+.stat-box p {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 10px 0 0;
+    color: #3498db;
+}

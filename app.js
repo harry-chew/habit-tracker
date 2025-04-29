@@ -48,9 +48,7 @@ passport.use(new GoogleStrategy({
       id: profile.id,
       displayName: profile.displayName,
       firstName: profile.name.givenName,
-      lastName: profile.name.familyName,
-      email: profile.emails[0].value,
-      photo: profile.photos[0].value
+      lastName: profile.name.familyName
     };
     return done(null, user);
   }

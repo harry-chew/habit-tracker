@@ -12,27 +12,28 @@ const habitSchema = new mongoose.Schema({
 });
 
 habitSchema.methods.isCompletedForCurrentPeriod = function() {
+  if (!this.lastCompletedDate) return false;
+
   const now = new Date();
-  let startOfPeriod;
+  const lastCompleted = new Date(this.lastCompletedDate);
+
+  // Set both dates to the start of their respective days
+  now.setHours(0, 0, 0, 0);
+  lastCompleted.setHours(0, 0, 0, 0);
 
   switch (this.frequency) {
     case 'daily':
-      startOfPeriod = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      break;
+      return now.getTime() === lastCompleted.getTime();
     case 'weekly':
-      startOfPeriod = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
-      break;
+      const weekStart = new Date(now);
+      weekStart.setDate(now.getDate() - now.getDay());
+      return lastCompleted >= weekStart;
     case 'monthly':
-      startOfPeriod = new Date(now.getFullYear(), now.getMonth(), 1);
-      break;
+      return now.getMonth() === lastCompleted.getMonth() && 
+             now.getFullYear() === lastCompleted.getFullYear();
+    default:
+      return false;
   }
-  
-  // For daily habits, check if the last completion is after the start of the current day
-  if (this.frequency === 'daily') {
-    return this.lastCompletedDate && this.lastCompletedDate >= startOfPeriod;
-  }
-
-  return this.completions.some(date => date >= startOfPeriod && date <= now);
 };
 
 module.exports = mongoose.model('Habit', habitSchema);

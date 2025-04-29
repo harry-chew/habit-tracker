@@ -1,3 +1,31 @@
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>About Daily Habit Tracker</h3>
+            <p>Daily Habit Tracker is your personal tool for building and maintaining positive habits. Track your progress, stay motivated, and achieve your goals.</p>
+        </div>
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <% if (user) { %>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/stats">Statistics</a></li>
+                <% } else { %>
+                    <li><a href="/auth/google">Login</a></li>
+                <% } %>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <p>Email: support@dailyhabittracker.com</p>
+        </div>
     </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 - Daily Habit Tracker. All rights reserved.</p>
+    </div>
+</footer>
+   
+   </div>
 </body>
 </html>
