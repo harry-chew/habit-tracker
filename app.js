@@ -10,6 +10,7 @@ const authRoutes = require('./routes/auth');
 const habitRoutes = require('./routes/habits');
 const dashboardRoutes = require('./routes/dashboard');
 const statsRoutes = require('./routes/stats');
+const feedbackRoutes = require('./routes/feedback');
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
@@ -72,6 +73,7 @@ app.use('/auth', authRoutes);
 app.use('/habits', habitRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/stats', statsRoutes);
+app.use('/feedback', feedbackRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -87,6 +87,32 @@
     margin-top: 20px;
 }
 
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.feedback-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.feedback-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+.feedback-form input[type="text"],
+.feedback-form input[type="email"], 
+.feedback-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
 
 .info-section {
     margin-top: 40px;

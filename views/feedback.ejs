@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+
+<div class="dashboard-container">
+    <%- include('partials/sidebar') %>
+    <div class="main-content">
+        <h2>Feedback</h2>
+        <form action="/feedback" method="POST" class="feedback-form" id="feedback-form">
+            <select name="feedback-form-type" id="feedback-form-type">
+                <option value="general">General Feedback</option>
+                <option value="feature">Feature Request</option>
+                <option value="bug">Bug Report</option>
+            </select>
+            <textarea name="feedback" id="feedback" cols="30" rows="10" placeholder="Your feedback here..."></textarea>
+            <p class="form-info">Your feedback is important to us. Please provide as much detail as possible.</p>
+            <button type="submit" class="btn">Submit Feedback</button>
+            <p class="form-error"></p>
+            <p class="form-success"></p>
+        </form>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('feedback-form');
+    const feedbackTypeSelect = document.getElementById('feedback-form-type');
+    const feedbackTextarea = document.getElementById('feedback');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const feedbackType = feedbackTypeSelect.value;
+        const feedback = feedbackTextarea.value;
+
+        if (feedback.trim() === '') {
+            alert('Please enter your feedback.');
+            return;
+        }
+
+        const data = {
+            feedbackType: feedbackType,
+            feedback: feedback
+        };
+
+        fetch('/feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((response) => {
+            if (response.ok) {
+                document.querySelector('.form-success').textContent = response.message;
+                document.querySelector('.form-error').textContent = '';
+                feedbackTextarea.value = ''; // Clear the textarea
+            } else {
+                document.querySelector('.form-error').textContent = response.message;
+                document.querySelector('.form-success').textContent = '';
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+            document.querySelector('.form-error').textContent = response.message;
+            document.querySelector('.form-success').textContent = '';
+        });
+    });
+</script>
+
+<%- include('partials/footer') %>
