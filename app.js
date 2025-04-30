@@ -42,7 +42,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL
+    callbackURL: process.env.GOOGLE_REDIRECT_URI
   },
   (accessToken, refreshToken, profile, done) => {
     const user = {
