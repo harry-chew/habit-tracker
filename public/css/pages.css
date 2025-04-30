@@ -143,7 +143,7 @@
     text-align: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     flex: 1;
-    min-width: 200px;
+    min-width: 400px;
 }
 .stat-box h3 {
     margin-top: 0;
@@ -154,4 +154,10 @@
     font-weight: bold;
     margin: 10px 0 0;
     color: #3498db;
+}
+
+@media (max-width: 768px) {
+    .stat-box {
+        min-width: 200px;
+    }
 }
