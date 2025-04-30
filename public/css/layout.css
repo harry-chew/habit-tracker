@@ -109,7 +109,8 @@ header h1 {
 }
 
 .footer-section {
-    flex: 0 1 300px;
+    flex: 0 1 100px;
+    min-width: 300px;
     text-align: center;
 }
 

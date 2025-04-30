@@ -102,16 +102,19 @@
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-size: 1.1rem;
     margin-bottom: 15px;
 }
 .feedback-form input[type="text"],
 .feedback-form input[type="email"], 
 .feedback-form textarea {
     width: 100%;
+    box-sizing: border-box;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-bottom: 15px;
+    font-size: 1.1rem;
 }
 
 .info-section {

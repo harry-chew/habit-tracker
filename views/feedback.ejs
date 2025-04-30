@@ -5,16 +5,18 @@
     <div class="main-content">
         <h2>Feedback</h2>
         <form action="/feedback" method="POST" class="feedback-form" id="feedback-form">
+            <label for="feedback-form-type">Choose the category:</label>
             <select name="feedback-form-type" id="feedback-form-type">
                 <option value="general">General Feedback</option>
                 <option value="feature">Feature Request</option>
                 <option value="bug">Bug Report</option>
             </select>
+            <label for="feedback">Information:</label>
             <textarea name="feedback" id="feedback" cols="30" rows="10" placeholder="Your feedback here..."></textarea>
             <p class="form-info">Your feedback is important to us. Please provide as much detail as possible.</p>
             <button type="submit" class="btn">Submit Feedback</button>
-            <p class="form-error"></p>
-            <p class="form-success"></p>
+            <p class="form-error" id="form-error"></p>
+            <p class="form-success" id="form-success"></p>
         </form>
     </div>
 </div>
@@ -47,18 +49,19 @@
             },
             body: JSON.stringify(data)
         }).then((response) => {
+            console.log(response);
             if (response.ok) {
-                document.querySelector('.form-success').textContent = response.message;
-                document.querySelector('.form-error').textContent = '';
+                document.getElementById('form-success').textContent = 'Feedback submitted successfully! Thank you.';
+                document.getElementById('form-error').textContent = '';
                 feedbackTextarea.value = ''; // Clear the textarea
             } else {
-                document.querySelector('.form-error').textContent = response.message;
-                document.querySelector('.form-success').textContent = '';
+                document.getElementById('form-error').textContent = 'Error: Feedback not submitted, please try again.';
+                document.getElementById('form-success').textContent = '';
             }
         }).catch((error) => {
             console.error('Error:', error);
-            document.querySelector('.form-error').textContent = response.message;
-            document.querySelector('.form-success').textContent = '';
+            document.getElementById('form-error').textContent = 'Error: Feedback not submitted, please try again.';
+            document.getElementById('form-success').textContent = '';
         });
     });
 </script>
