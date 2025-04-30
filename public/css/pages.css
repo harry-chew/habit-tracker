@@ -12,7 +12,7 @@
 
 /* Styles specific to the add habit */
 .add-habit-form {
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     background-color: #f9f9f9;
@@ -29,11 +29,12 @@
 .add-habit-form input[type="text"],
 .add-habit-form textarea,
 .add-habit-form select {
+    box-sizing: border-box;
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 1.1rem;
 }
 
 .add-habit-form textarea {

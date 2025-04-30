@@ -87,6 +87,10 @@
     margin-top: 20px;
 }
 
+.form-group {
+    margin-bottom: 20px;
+}
+
 .feedback-form {
     display: flex;
     flex-direction: column;
