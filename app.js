@@ -28,21 +28,21 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI,
-    collectionName: 'sessions'
-  }),
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-    maxAge: 1000 * 60 * 60 * 24, // 24 hours
-    sameSite: 'lax',
-    httpOnly: true
-  }
-}));
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   store: MongoStore.create({
+//     mongoUrl: process.env.MONGODB_URI,
+//     collectionName: 'sessions'
+//   }),
+//   cookie: {
+//     secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+//     maxAge: 1000 * 60 * 60 * 24, // 24 hours
+//     sameSite: 'lax',
+//     httpOnly: true
+//   }
+// }));
 
 // Passport middleware
 app.use(passport.initialize());
