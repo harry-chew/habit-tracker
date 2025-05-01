@@ -46,7 +46,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Passport middleware
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 // Passport Google OAuth strategy
 passport.use(new GoogleStrategy({
