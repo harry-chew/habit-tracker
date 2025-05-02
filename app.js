@@ -75,7 +75,14 @@ passport.deserializeUser((user, done) => {
 
 // Routes
 app.get('/', (req, res) => {
-  res.render('index', { user: req.user });
+  if (req.isAuthenticated()) {
+    console.log('User is authenticated:', req.user);
+    res.redirect('/dashboard');
+  } else {
+    console.log('User is not authenticated');
+    res.render('index', { user: null });
+  }
+  //res.render('index', { user: req.user });
 });
 
 // Use route files

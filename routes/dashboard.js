@@ -5,6 +5,7 @@ const Streak = require('../models/Streak');
 const { ensureAuthenticated } = require('../middleware/auth');
 
 router.get('/', ensureAuthenticated, async (req, res) => {
+  console.log('Dashboard route UserId:', req.user.id); // Log the user ID for debugging
   try {
     const habits = await Habit.find({ userId: req.user.id });
     const streak = await Streak.findOne({ userId: req.user.id });

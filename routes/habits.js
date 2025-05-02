@@ -5,6 +5,7 @@ const Streak = require('../models/Streak');
 const { ensureAuthenticated } = require('../middleware/auth');
 
 router.get('/add', ensureAuthenticated, (req, res) => {
+  console.log('Add Habit route UserId:', req.user.id); // Log the user ID for debugging
   res.render('add-habit', { user: req.user });
 });
 
