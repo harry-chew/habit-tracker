@@ -13,9 +13,6 @@ const dashboardRoutes = require('./routes/dashboard');
 const statsRoutes = require('./routes/stats');
 const feedbackRoutes = require('./routes/feedback');
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Could not connect to MongoDB', err));
 
 const app = express();
 
@@ -27,6 +24,12 @@ app.set('views', __dirname + '/views');
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  console.log('Session:', req.session);
+  console.log('User:', req.user);
+  next();
+});
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -80,7 +83,7 @@ app.get('/', (req, res) => {
     res.redirect('/dashboard');
   } else {
     console.log('User is not authenticated');
-    res.render('index', { user: null });
+    res.render('index', { user: req.user });
   }
   //res.render('index', { user: req.user });
 });
@@ -92,7 +95,13 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/stats', statsRoutes);
 app.use('/feedback', feedbackRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
-});
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB');
+    const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on ${PORT}`);
+  });
+})
+.catch(err => console.error('Could not connect to MongoDB', err));
+
