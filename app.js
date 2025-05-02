@@ -26,15 +26,6 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 
-// Add this debugging middleware before your routes
-app.use((req, res, next) => {
-  console.log('Debug Middleware - Request URL:', req.url);
-  console.log('Debug Middleware - Session:', util.inspect(req.session, { depth: null }));
-  console.log('Debug Middleware - User:', util.inspect(req.user, { depth: null }));
-  console.log('Debug Middleware - isAuthenticated:', req.isAuthenticated());
-  next();
-});
-
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -55,6 +46,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
 // Passport Google OAuth strategy
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -72,12 +72,13 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-  done(null, user);
+// Add this debugging middleware before your routes
+app.use((req, res, next) => {
+  console.log('Debug Middleware - Request URL:', req.url);
+  console.log('Debug Middleware - Session:', util.inspect(req.session, { depth: null }));
+  console.log('Debug Middleware - User:', util.inspect(req.user, { depth: null }));
+  console.log('Debug Middleware - isAuthenticated:', req.isAuthenticated());
+  next();
 });
 
 // Routes
