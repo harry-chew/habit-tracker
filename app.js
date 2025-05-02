@@ -14,7 +14,6 @@ const dashboardRoutes = require('./routes/dashboard');
 const statsRoutes = require('./routes/stats');
 const feedbackRoutes = require('./routes/feedback');
 
-
 const app = express();
 
 // Set up EJS template engine and views directory
@@ -109,4 +108,3 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   });
 })
 .catch(err => console.error('Could not connect to MongoDB', err));
-
