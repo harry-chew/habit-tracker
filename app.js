@@ -5,6 +5,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
+const util = require('util');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -25,9 +26,12 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 
+// Add this debugging middleware before your routes
 app.use((req, res, next) => {
-  console.log('Session:', req.session);
-  console.log('User:', req.user);
+  console.log('Debug Middleware - Request URL:', req.url);
+  console.log('Debug Middleware - Session:', util.inspect(req.session, { depth: null }));
+  console.log('Debug Middleware - User:', util.inspect(req.user, { depth: null }));
+  console.log('Debug Middleware - isAuthenticated:', req.isAuthenticated());
   next();
 });
 

@@ -9,11 +9,14 @@ router.get('/google',
 router.get('/google/callback', 
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    console.log('User authenticated:', req.user);
+    console.log('Google callback - User authenticated:', util.inspect(req.user, { depth: null }));
+    console.log('Google callback - Session before save:', util.inspect(req.session, { depth: null }));
+    
     req.session.save((err) => {
       if (err) {
         console.error('Error saving session:', err);
       }
+      console.log('Google callback - Session after save:', util.inspect(req.session, { depth: null }));
       res.redirect('/dashboard');
     });
   }
