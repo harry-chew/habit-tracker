@@ -24,7 +24,6 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 
-// Replace the existing session middleware with this
 app.use(cookieSession({
   name: 'session',
   keys: [process.env.SESSION_SECRET],
@@ -38,6 +37,23 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Passport Google OAuth strategy
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.GOOGLE_REDIRECT_URI
+},
+(accessToken, refreshToken, profile, done) => {
+  const user = {
+    id: profile.id,
+    displayName: profile.displayName,
+    firstName: profile.name.givenName,
+    lastName: profile.name.familyName
+  };
+  return done(null, user);
+}
+));
+
 passport.serializeUser((user, done) => {
   done(null, user);
 });
@@ -46,22 +62,21 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-// Passport Google OAuth strategy
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_REDIRECT_URI
-  },
-  (accessToken, refreshToken, profile, done) => {
-    const user = {
-      id: profile.id,
-      displayName: profile.displayName,
-      firstName: profile.name.givenName,
-      lastName: profile.name.familyName
+// Add this to make Passport work with cookie-session
+app.use((req, res, next) => {
+  if (req.session && !req.session.regenerate) {
+    req.session.regenerate = (cb) => {
+      cb();
     };
-    return done(null, user);
   }
-));
+  if (req.session && !req.session.save) {
+    req.session.save = (cb) => {
+      cb();
+    };
+  }
+  next();
+});
+
 
 // Add this debugging middleware before your routes
 app.use((req, res, next) => {

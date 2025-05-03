@@ -10,16 +10,13 @@ router.get('/google',
 router.get('/google/callback', 
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    console.log('Google callback - User authenticated:', util.inspect(req.user, { depth: null }));
-    console.log('Google callback - Session before save:', util.inspect(req.session, { depth: null }));
+    // Manually handle the session
+    req.session.passport = { user: req.user };
     
-    req.session.save((err) => {
-      if (err) {
-        console.error('Error saving session:', err);
-      }
-      console.log('Google callback - Session after save:', util.inspect(req.session, { depth: null }));
-      res.redirect('/dashboard');
-    });
+    console.log('Google callback - User authenticated:', util.inspect(req.user, { depth: null }));
+    console.log('Google callback - Session:', util.inspect(req.session, { depth: null }));
+    
+    res.redirect('/dashboard');
   }
 );
 
@@ -28,8 +25,8 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  req.logout((err) => {
-    if (err) { return next(err); }
+  req.session = null;  // This destroys the session
+  req.logout(() => {
     res.redirect('/');
   });
 });
