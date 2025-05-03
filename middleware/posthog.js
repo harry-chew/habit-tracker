@@ -7,10 +7,9 @@ const client = new PostHog(process.env.POSTHOG_API_KEY, {
 });
 
 exports.posthogMiddleware = (req, res, next) => {
-    console.log('PostHog Middleware - Request URL:', req.url);
+    console.log('PostHog Middleware - Request URL:', req.url, req.user?.id);
     client.capture('visit', {
-        url: req.url,
-        distinct_id: req.user,
+        distinctId: req.user?.id ? req.user.id : 'anonymous',
         event: 'user visited page'
       });
       next();
