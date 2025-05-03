@@ -4,7 +4,6 @@ const { ensureAuthenticated } = require('../middleware/auth');
 const Feedback = require('../models/Feedback');
 
 router.get('/', ensureAuthenticated, async (req, res) => {
-    console.log('Feedback route UserId:', req.user.id); // Log the user ID for debugging
     try {
         res.render('feedback', { user: req.user });
     } catch (err) {

@@ -63,10 +63,9 @@ app.get('/', (req, res) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log('[ROUTE][INDEX] - [JWT]:', decoded);
       return res.redirect('/dashboard');
     } catch (error) {
-      console.error('[ROUTE][INDEX] - Invalid or expired token:', error);
+      console.error(`Error: ${error}`);
       res.clearCookie('jwt');
     }
   }
