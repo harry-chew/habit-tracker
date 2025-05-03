@@ -5,6 +5,7 @@ const Streak = require('../models/Streak');
 const { ensureAuthenticated } = require('../middleware/auth');
 
 router.get('/', ensureAuthenticated, async (req, res) => {
+  const isMobile = req.useragent.isMobile;
   try {
     const habits = await Habit.find({ userId: req.user.id });
     const streak = await Streak.findOne({ userId: req.user.id });
@@ -17,6 +18,7 @@ router.get('/', ensureAuthenticated, async (req, res) => {
 
     res.render('stats', { 
       user: req.user, 
+      isMobile,
       totalHabits, 
       completedToday, 
       currentStreak, 

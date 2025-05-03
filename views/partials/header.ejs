@@ -11,6 +11,22 @@
     <header class="header">
         <h1>Daily Habit Tracker</h1>
     </header>
+    <% if (isMobile) { %>
+        <nav class ="nav">
+            <i id="menu-toggle" class="fas fa-bars menu-toggle"></i>
+        </nav>
+        <div class="mobile-menu" id="mobile-menu">
+            <% if (user) { %>
+                <a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="/habits/add"><i class="fas fa-plus"></i> Add Habit</a> 
+                <a href="/stats"><i class="fas fa-chart-bar"></i> Stats</a>
+                <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>   
+            <% } else { %>
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/auth/google"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <% } %>
+        </div>
+    <% } else { %>
     <nav class="nav">
         <% if (user) { %>
             <a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
@@ -20,4 +36,13 @@
             <a href="/auth/google"><i class="fas fa-sign-in-alt"></i> Login</a>
         <% } %>
     </nav>
+    <% } %>
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuToggle = document.getElementById('menu-toggle');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+    </script>
     <div class="container">

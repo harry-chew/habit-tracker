@@ -1,7 +1,9 @@
 <%- include('partials/header') %>
 
 <div class="dashboard-container">
+    <% if (!isMobile) { %>
     <%- include('partials/sidebar') %>
+    <% } %>
     <div class="main-content">
         <%- include('partials/streak-banner') %>
         <h2>Welcome, <%= user.displayName %>!</h2>

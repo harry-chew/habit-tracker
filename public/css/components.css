@@ -1,3 +1,30 @@
+.menu-toggle {
+    color : #d4d4d4;
+    font-size: 2rem;
+}
+.mobile-menu {
+    position: fixed;
+    flex-direction: column;
+    z-index: 1;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    width: 250px;
+    display: none;
+}
+
+.mobile-menu a {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.active {
+    display: flex !important;
+}
+
 .btn {
     display: inline-block;
     padding: 10px 20px;

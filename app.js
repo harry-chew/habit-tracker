@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const util = require('util');
 const cookieParser = require('cookie-parser');
 const { ensureAuthenticated } = require('./middleware/auth');
+const useragent = require('express-useragent');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(useragent.express());
 
 // Passport middleware
 app.use(passport.initialize());
@@ -60,16 +62,17 @@ app.use('/auth', authRoutes);
 // Home route
 app.get('/', (req, res) => {
   const token = req.cookies?.jwt;
+  const isMobile = req.useragent.isMobile;
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      return res.redirect('/dashboard');
+      return res.redirect('/dashboard', { isMobile});
     } catch (error) {
       console.error(`Error: ${error}`);
       res.clearCookie('jwt');
     }
   }
-  res.render('index', { user: null });
+  res.render('index', { user: null, isMobile });
 });
 
 // Apply ensureAuthenticated middleware to routes that require authentication
@@ -81,6 +84,7 @@ app.use('/feedback', ensureAuthenticated, feedbackRoutes);
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
+    console.log('Database:', mongoose.connection.name);
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       console.log(`Server is running on ${PORT}`);

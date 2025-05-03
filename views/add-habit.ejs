@@ -2,8 +2,9 @@
 
 <div class="dashboard-container">
 
+    <% if (!isMobile) { %>
     <%- include('partials/sidebar') %>
-
+    <% } %>
     <div class="main-content">
         <h2>Add New Habit</h2>
         <form action="/habits/add" method="POST" class="add-habit-form">

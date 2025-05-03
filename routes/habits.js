@@ -5,8 +5,9 @@ const Streak = require('../models/Streak');
 const { ensureAuthenticated } = require('../middleware/auth');
 
 router.get('/add', ensureAuthenticated, (req, res) => {
+  const isMobile = req.useragent.isMobile;
   console.log('Add Habit route UserId:', req.user.id); // Log the user ID for debugging
-  res.render('add-habit', { user: req.user });
+  res.render('add-habit', { user: req.user, isMobile });
 });
 
 router.post('/add', ensureAuthenticated, async (req, res) => {
@@ -26,9 +27,10 @@ router.post('/add', ensureAuthenticated, async (req, res) => {
 });
 
 router.post('/delete/:id', ensureAuthenticated, async (req, res) => {
+    const isMobile = req.useragent.isMobile;
     try {
       await Habit.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
-      res.redirect('/dashboard');
+      res.redirect('/dashboard', { user: req.user, isMobile });
     } catch (err) {
       console.error(err);
       res.status(500).send('Server error');

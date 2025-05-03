@@ -17,10 +17,13 @@ router.get('/', ensureAuthenticated, async (req, res) => {
     const hasSevenDayStreak = streak && streak.hasSevenDayStreak();
     const showBanner = allCompleted && hasSevenDayStreak;
 
+    const isMobile = req.useragent.isMobile;
+
     res.render('dashboard', { 
       user: req.user, 
       habits,
-      showBanner
+      showBanner,
+      isMobile
     });
   } catch (err) {
     console.error(err);

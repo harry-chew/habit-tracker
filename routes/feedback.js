@@ -4,8 +4,9 @@ const { ensureAuthenticated } = require('../middleware/auth');
 const Feedback = require('../models/Feedback');
 
 router.get('/', ensureAuthenticated, async (req, res) => {
+    const isMobile = req.useragent.isMobile;
     try {
-        res.render('feedback', { user: req.user });
+        res.render('feedback', { user: req.user, isMobile });
     } catch (err) {
         console.error(err);
         res.status(500).send('Server error');
