@@ -1,13 +1,19 @@
-function ensureAuthenticated(req, res, next) {
-  console.log('ensureAuthenticated - Session:', req.session);
-  console.log('ensureAuthenticated - User:', req.user);
-  console.log('ensureAuthenticated - isAuthenticated:', req.isAuthenticated && req.isAuthenticated());
-  console.log('ensureAuthenticated - Headers:', req.headers);
+const jwt = require('jsonwebtoken');
 
-  if (req.isAuthenticated && req.isAuthenticated()) {
-    return next();
+exports.ensureAuthenticated = (req, res, next) => {
+  const token = req.cookies?.jwt;
+  
+  if (!token) {
+    return res.redirect('/');
   }
-  res.redirect('/');
-}
 
-module.exports = { ensureAuthenticated };
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    console.error('JWT verification failed:', error);
+    res.clearCookie('jwt');
+    res.redirect('/');
+  }
+};

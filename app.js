@@ -1,10 +1,12 @@
 const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const util = require('util');
-const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
+const { ensureAuthenticated } = require('./middleware/auth');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -23,19 +25,10 @@ app.set('views', __dirname + '/views');
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
-
-app.use(cookieSession({
-  name: 'session',
-  keys: [process.env.SESSION_SECRET],
-  maxAge: 24 * 60 * 60 * 1000, // 24 hours
-  secure: process.env.NODE_ENV === 'production',
-  httpOnly: true,
-  sameSite: 'lax'
-}));
+app.use(cookieParser());
 
 // Passport middleware
 app.use(passport.initialize());
-app.use(passport.session());
 
 // Passport Google OAuth strategy
 passport.use(new GoogleStrategy({
@@ -54,64 +47,42 @@ passport.use(new GoogleStrategy({
 }
 ));
 
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});
-
-// Add this to make Passport work with cookie-session
-app.use((req, res, next) => {
-  if (req.session && !req.session.regenerate) {
-    req.session.regenerate = (cb) => {
-      cb();
-    };
-  }
-  if (req.session && !req.session.save) {
-    req.session.save = (cb) => {
-      cb();
-    };
-  }
-  next();
-});
-
-
 // Add this debugging middleware before your routes
 app.use((req, res, next) => {
   console.log('Debug Middleware - Request URL:', req.url);
-  console.log('Debug Middleware - Session:', util.inspect(req.session, { depth: null }));
   console.log('Debug Middleware - User:', util.inspect(req.user, { depth: null }));
-  console.log('Debug Middleware - isAuthenticated:', req.isAuthenticated());
   next();
 });
 
-// Routes
+// Routes that don't require authentication
+app.use('/auth', authRoutes);
+
+// Home route
 app.get('/', (req, res) => {
-  if (req.isAuthenticated()) {
-    console.log('User is authenticated:', req.user);
-    res.redirect('/dashboard');
-  } else {
-    console.log('User is not authenticated');
-    res.render('index', { user: req.user });
+  const token = req.cookies?.jwt;
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      return res.redirect('/dashboard');
+    } catch (error) {
+      res.clearCookie('jwt');
+    }
   }
-  //res.render('index', { user: req.user });
+  res.render('index', { user: null });
 });
 
-// Use route files
-app.use('/auth', authRoutes);
-app.use('/habits', habitRoutes);
-app.use('/dashboard', dashboardRoutes);
-app.use('/stats', statsRoutes);
-app.use('/feedback', feedbackRoutes);
+// Apply ensureAuthenticated middleware to routes that require authentication
+app.use('/habits', ensureAuthenticated, habitRoutes);
+app.use('/dashboard', ensureAuthenticated, dashboardRoutes);
+app.use('/stats', ensureAuthenticated, statsRoutes);
+app.use('/feedback', ensureAuthenticated, feedbackRoutes);
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Connected to MongoDB');
     const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`);
-  });
-})
-.catch(err => console.error('Could not connect to MongoDB', err));
+    app.listen(PORT, () => {
+      console.log(`Server is running on ${PORT}`);
+    });
+  })
+  .catch(err => console.error('Could not connect to MongoDB', err));

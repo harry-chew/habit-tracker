@@ -1,5 +1,6 @@
 const express = require('express');
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const util = require('util');
 
@@ -8,13 +9,19 @@ router.get('/google',
 );
 
 router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/' }),
+  passport.authenticate('google', { session: false }),
   (req, res) => {
-    // Manually handle the session
-    req.session.passport = { user: req.user };
-    
     console.log('Google callback - User authenticated:', util.inspect(req.user, { depth: null }));
-    console.log('Google callback - Session:', util.inspect(req.session, { depth: null }));
+    
+    // Generate JWT
+    const token = jwt.sign(req.user, process.env.JWT_SECRET, { expiresIn: '24h' });
+    
+    // Set JWT as cookie
+    res.cookie('jwt', token, { 
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    });
     
     res.redirect('/dashboard');
   }
@@ -25,10 +32,8 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  req.session = null;  // This destroys the session
-  req.logout(() => {
-    res.redirect('/');
-  });
+  res.clearCookie('jwt');
+  res.redirect('/');
 });
 
 module.exports = router;
