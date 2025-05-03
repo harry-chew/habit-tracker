@@ -8,6 +8,8 @@ const util = require('util');
 const cookieParser = require('cookie-parser');
 const { ensureAuthenticated } = require('./middleware/auth');
 const useragent = require('express-useragent');
+const { PostHog } = require('posthog-node');
+const { posthogMiddleware } = require('./middleware/posthog');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -56,8 +58,14 @@ app.use((req, res, next) => {
   next();
 });
 
+const client = new PostHog(process.env.POSTHOG_API_KEY, {
+  host: 'https://eu.i.posthog.com',
+  persistence: 'memory', // Use in-memory persistence for testing
+  person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+});
+
 // Routes that don't require authentication
-app.use('/auth', authRoutes);
+app.use('/auth', posthogMiddleware, authRoutes);
 
 // Home route
 app.get('/', (req, res) => {
@@ -66,6 +74,7 @@ app.get('/', (req, res) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
       return res.redirect('/dashboard', { isMobile});
     } catch (error) {
       console.error(`Error: ${error}`);
@@ -76,10 +85,10 @@ app.get('/', (req, res) => {
 });
 
 // Apply ensureAuthenticated middleware to routes that require authentication
-app.use('/habits', ensureAuthenticated, habitRoutes);
-app.use('/dashboard', ensureAuthenticated, dashboardRoutes);
-app.use('/stats', ensureAuthenticated, statsRoutes);
-app.use('/feedback', ensureAuthenticated, feedbackRoutes);
+app.use('/habits', ensureAuthenticated, posthogMiddleware, habitRoutes);
+app.use('/dashboard', ensureAuthenticated, posthogMiddleware, dashboardRoutes);
+app.use('/stats', ensureAuthenticated, posthogMiddleware, statsRoutes);
+app.use('/feedback', ensureAuthenticated, posthogMiddleware, feedbackRoutes);
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -91,3 +100,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
     });
   })
   .catch(err => console.error('Could not connect to MongoDB', err));
+
+app.on('close', async () => {
+  await client.shutdown()
+});

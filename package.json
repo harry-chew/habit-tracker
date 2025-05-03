@@ -24,6 +24,8 @@
     "mongoose": "^8.14.0",
     "nodemon": "^3.1.10",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "posthog-js": "^1.239.1",
+    "posthog-node": "^4.17.1"
   }
 }
