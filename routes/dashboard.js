@@ -9,7 +9,6 @@ router.get('/', ensureAuthenticated, async (req, res) => {
   console.log('Dashboard route - User:', JSON.stringify(req.user, null, 2));
   console.log('Dashboard route UserId:', req.user ? req.user.id : 'No user');
 
-
   try {
     const habits = await Habit.find({ userId: req.user.id });
     const streak = await Streak.findOne({ userId: req.user.id });
