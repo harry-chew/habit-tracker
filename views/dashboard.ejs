@@ -9,18 +9,13 @@
         <h2>Welcome, <%= user.displayName %>!</h2>
         <h3>Your Habits</h3>
         <% if (habits.length > 0) { %>
-            <ul class="habit-list">
+            <div class="habit-list">
                 <% habits.forEach((habit, index) => { %>
-                    <li class="habit-item <%= index % 2 === 0 ? 'even' : 'odd' %>">
-                        <div class="habit-info">
-                            <h4><%= habit.name %> 
-                                    <span class="status <%= habit.isCompletedForCurrentPeriod() ? 'completed' : 'pending' %>">
-                                        <%= habit.isCompletedForCurrentPeriod() ? 'Completed' : 'Pending' %>
-                                    </span>
-                                </h4>
-                                <p><%= habit.description %></p>
-                                <!-- <span class="frequency"><%= habit.frequency %></span> -->
-                            </div>
+                    <div class="habit-item <%= index % 2 === 0 ? 'even' : 'odd' %>">
+                        <div class="habit-details">
+                            <p class="status <%= habit.isCompletedForCurrentPeriod() ? 'completed' : 'pending' %>">
+                                <%= habit.isCompletedForCurrentPeriod() ? 'Completed' : 'Pending' %>
+                            </p>
                             <div class="habit-actions">
                                 <% if (!habit.isCompletedForCurrentPeriod()) { %>
                                     <form action="/habits/complete/<%= habit._id %>" method="POST">
@@ -31,9 +26,20 @@
                                     <button type="submit" class="delete-btn">Delete</button>
                                 </form>
                             </div>
-                        </li>
+                        </div>
+    
+                        <div class="habit-info">
+                            <% if (habit.name.length > 100) { %>
+                                <h4><%= habit.name.substring(0, 100) + '...' %></h4>
+                            <% } else { %>
+                                <h4><%= habit.name %></h4>
+                            <% } %>
+                            <p class="habit-description"><%= habit.description %></p>
+                                    <!-- <span class="frequency"><%= habit.frequency %></span> -->
+                        </div>
+                    </div>
                 <% }) %>
-            </ul>
+            </div>
             <div class="add-habit">
                 <a href="/habits/add" class="btn">Add New Habit</a>
             </div>

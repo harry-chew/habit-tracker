@@ -1,13 +1,16 @@
 /* Styles specific to the dashboard */
 .dashboard-container {
+    width: 100%;
+    flex : 1;
     display: flex;
-    min-height: calc(100vh - 100px);
 }
 
 .main-content {
     flex: 1;
+    min-width: 0; /* This allows the flex item to shrink below its content size */
     padding: 20px;
     background-color: #f4f4f4;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 /* Styles specific to the add habit */
@@ -57,8 +60,6 @@
     background-color: #2980b9;
 }
 
-
-
 .habit-list {
     list-style-type: none;
     padding: 0;
@@ -66,12 +67,16 @@
 }
 
 .habit-item {
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+    width: 100%;
     display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.habit-details {
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
 }
 
 .even {
@@ -82,12 +87,23 @@
 }
 
 .habit-info {
-    flex-grow: 1;
+    height : auto;
+    padding: 20px;
+    word-wrap: break-word !important;
+    text-wrap: break-word !important;
+    word-break: break-all !important;
+}
+
+.habit-description {
+    word-wrap: break-word !important;
+    text-wrap: break-word !important;
+    word-break: break-all !important;
 }
 
 .habit-actions {
+    padding: 10px;
     display: flex;
-    gap: 10px; /* This creates space between the buttons */
+    gap: 10px;
 }
 
 .complete-btn, .delete-btn {
@@ -117,6 +133,10 @@
 }
 
 .status {
+    height: auto;
+    max-width: 200px;
+    width: auto;
+    text-align: center;
     font-size: 0.8em;
     padding: 2px 5px;
     border-radius: 3px;
