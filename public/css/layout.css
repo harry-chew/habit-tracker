@@ -15,6 +15,13 @@ header h1 {
 }
 
 /* nav styles */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--secondary-color);
+    padding: 1rem;
+}
 
 .nav a {
     color: white;
@@ -40,7 +47,7 @@ header h1 {
 
 /*side bar styles*/
 .sidebar {
-    width: 150px;
+    width: auto;
     background-color: #2c3e50;
     color: white;
     padding: 20px;

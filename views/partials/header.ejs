@@ -12,11 +12,11 @@
         <h1>Daily Habit Tracker</h1>
     </header>
     <nav class="nav">
-        <a href="/"><i class="fas fa-home"></i> Home</a>
         <% if (user) { %>
             <a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
             <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        <% } else { %>
+            <% } else { %>
+            <a href="/"><i class="fas fa-home"></i> Home</a>
             <a href="/auth/google"><i class="fas fa-sign-in-alt"></i> Login</a>
         <% } %>
     </nav>

@@ -74,6 +74,13 @@
     align-items: center;
 }
 
+.even {
+    background-color: #ebebeb;
+}
+.odd {
+    background-color: #e0e0e0;
+}
+
 .habit-info {
     flex-grow: 1;
 }
