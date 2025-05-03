@@ -1,11 +1,10 @@
 const express = require('express');
-const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require('dotenv').config();
 const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo');
 const util = require('util');
+const cookieSession = require('cookie-session');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -26,26 +25,19 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI,
-    collectionName: 'sessions'
-  }),
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-    maxAge: 1000 * 60 * 60 * 24, // 24 hours
-    sameSite: 'lax',
-    httpOnly: true
-  }
+// Replace the existing session middleware with this
+app.use(cookieSession({
+  name: 'session',
+  keys: [process.env.SESSION_SECRET],
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  secure: process.env.NODE_ENV === 'production',
+  httpOnly: true,
+  sameSite: 'lax'
 }));
 
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 passport.serializeUser((user, done) => {
   done(null, user);
